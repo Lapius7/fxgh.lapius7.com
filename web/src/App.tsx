@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Input } from "@/components/arc/input/input";
 import { CopyButton } from "@/components/arc/copy-button/copy-button";
+import { Moon, Sun } from "lucide-react";
+import { useThemeTransition } from "@/components/transitions/theme-transition";
 import { convert } from "./convert";
 import styles from "./App.module.css";
 
@@ -29,13 +31,24 @@ export function App() {
   const [tab, setTab] = useState<(typeof TABS)[number]["id"]>("repo");
   const result = convert(value, location.host);
   const invalid = value.trim() !== "" && !result.ok;
+  const { toggleTheme, resolvedTheme } = useThemeTransition();
   const current = TABS.find((t) => t.id === tab)!;
 
   return (
     <div className={styles.page}>
       <header className={styles.top}>
         <span className={styles.brand}>FxGithub</span>
-        <a href={REPO}>github.com</a>
+        <span className={styles.actions}>
+          <button
+            type="button"
+            className={styles.icon}
+            aria-label={resolvedTheme === "dark" ? "ライトテーマにする" : "ダークテーマにする"}
+            onClick={(e) => toggleTheme({ origin: e })}
+          >
+            {resolvedTheme === "dark" ? <Sun size={16} aria-hidden /> : <Moon size={16} aria-hidden />}
+          </button>
+          <a href={REPO}>github.com</a>
+        </span>
       </header>
 
       <main style={{ display: "grid", gap: 56 }}>

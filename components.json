@@ -5,7 +5,7 @@
   "tsx": true,
   "tailwind": {
     "config": "",
-    "css": "web/src/index.css",
+    "css": "web/src/page.css",
     "baseColor": "neutral",
     "cssVariables": true,
     "prefix": ""
@@ -19,6 +19,7 @@
     "hooks": "@/hooks"
   },
   "registries": {
-    "@uiarc": "https://uiarc.dev/r/{name}.json"
+    "@uiarc": "https://uiarc.dev/r/{name}.json",
+    "@transition-kit": "https://transition-kit.space/r/{name}.json"
   }
 }
