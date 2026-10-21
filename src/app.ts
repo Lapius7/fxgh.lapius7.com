@@ -33,7 +33,7 @@ function fragment(param: string | undefined): string {
 // 静的ファイル(トップページ)。dist の外には出さない
 app.get("/", (c) => serveWeb("index.html", c));
 app.get("/assets/*", (c) => serveWeb(c.req.path.slice(1), c));
-for (const f of ["favicon.svg", "favicon-dark.svg", "favicon.png"]) app.get(`/${f}`, (c) => serveWeb(f, c));
+for (const f of ["favicon.svg", "favicon-dark.svg", "favicon.png", "og.png"]) app.get(`/${f}`, (c) => serveWeb(f, c));
 app.get("/favicon.ico", (c) => serveWeb("favicon.png", c));
 
 app.get("/healthz", (c) => c.text("ok"));
