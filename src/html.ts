@@ -35,10 +35,14 @@ export function embedHtml(m: EmbedMeta): string {
   if (m.imageUrl) {
     tags.push(
       `<meta property="og:image" content="${esc(m.imageUrl)}">`,
-      `<meta property="og:image:type" content="image/png">`,
-      `<meta property="og:image:width" content="${m.imageWidth ?? 1200}">`,
-      `<meta property="og:image:height" content="${m.imageHeight ?? 630}">`,
       `<meta name="twitter:image" content="${esc(m.imageUrl)}">`,
+    );
+  }
+  if (m.imageWidth && m.imageHeight) {
+    tags.push(
+      `<meta property="og:image:type" content="image/png">`,
+      `<meta property="og:image:width" content="${m.imageWidth}">`,
+      `<meta property="og:image:height" content="${m.imageHeight}">`,
     );
   }
   tags.push(`<link rel="alternate" type="application/json+oembed" href="${esc(oembed.toString())}" title="FxGithub">`);

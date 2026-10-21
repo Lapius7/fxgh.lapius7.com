@@ -4,6 +4,7 @@ import { config } from "./config";
 import { embedHtml } from "./html";
 import { IMAGE_FILE, getImage, imagePath } from "./images";
 import { FetchError, fetchBlob, fetchReadme, getGist, getRepo, isGistId, isName, fetchRaw, type RepoInfo } from "./github";
+import { firstReadmeImage } from "./readme-image";
 import { findRangeParam, resolveRange } from "./range";
 
 const BOT = /discord|twitterbot|slackbot|telegrambot|facebookexternalhit|facebot|whatsapp|linkedinbot|mastodon|bluesky|skypeuripreview|embedly|vkshare|iframely|redditbot|line-poker|googlebot/i;
@@ -118,6 +119,19 @@ async function repoRoute(c: import("hono").Context) {
     const found = isBlob
       ? await fetchBlob(owner, repo, rest.slice(1))
       : await fetchReadme(owner, repo, repoInfo?.defaultBranch ?? "HEAD");
+    if (!isBlob) {
+      // リポジトリ単体: README 先頭の画像、なければ GitHub 標準の OGP 画像
+      const readmeImg = firstReadmeImage(found.file.text, owner, repo, found.ref, found.path);
+      return html(
+        embedHtml({
+          title: `${owner}/${repo}`,
+          description: repoInfo?.description ?? "",
+          url: githubUrl,
+          imageUrl: readmeImg ?? `https://opengraph.githubassets.com/1/${owner}/${repo}`,
+          metrics: metrics(repoInfo),
+        }),
+      );
+    }
     const total = found.file.text.replace(/\n$/, "").split("\n").length;
     const range = resolveRange(param, total);
     const filename = found.path.split("/").pop()!;
@@ -131,9 +145,9 @@ async function repoRoute(c: import("hono").Context) {
     });
     return html(
       embedHtml({
-        title: isBlob ? `${found.path} — ${owner}/${repo}` : `${owner}/${repo}`,
+        title: `${found.path} — ${owner}/${repo}`,
         description: repoInfo?.description ?? "",
-        url: isBlob ? githubUrl + fragment(param) : githubUrl,
+        url: githubUrl + fragment(param),
         imageUrl: `${config.baseUrl}/img/${img.file}`,
         imageWidth: img.width,
         imageHeight: img.height,
