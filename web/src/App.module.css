@@ -1,0 +1,24 @@
+.page { width: 100%; max-width: 720px; min-height: 100dvh; margin-inline: auto; padding: 32px clamp(16px, 4vw, 32px); display: flex; flex-direction: column; gap: var(--space-12); box-sizing: border-box; }
+.page > * { min-width: 0; }
+.brand { font-family: var(--font-display); font-weight: 500; font-size: var(--text-lg); letter-spacing: -0.01em; display: flex; align-items: center; gap: var(--space-2); }
+.mark { width: 24px; height: 24px; border-radius: 7px; background: var(--accent); color: var(--accent-foreground); display: grid; place-items: center; font-size: 13px; font-family: var(--font-display); }
+.hero { display: grid; gap: var(--space-4); }
+.title { font-size: clamp(1.75rem, 5vw, var(--text-3xl)); line-height: 1.25; letter-spacing: -0.02em; text-wrap: balance; overflow-wrap: anywhere; }
+.lead { margin: 0; color: var(--text-secondary); line-height: 1.8; text-wrap: pretty; }
+.tool { display: grid; gap: var(--space-4); }
+.result { display: grid; gap: var(--space-3); padding: var(--space-4); border: 1px solid var(--border); border-radius: var(--radius-panel); background: var(--surface); }
+.resultRow { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
+.url { flex: 1 1 240px; min-width: 0; font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: var(--text-sm); overflow-wrap: anywhere; color: var(--foreground); }
+.hint { margin: 0; font-size: var(--text-sm); color: var(--text-secondary); }
+.link { background: none; border: 0; padding: 0; font: inherit; color: var(--accent-strong); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.link:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; border-radius: 4px; }
+.section { display: grid; gap: var(--space-4); }
+.h2 { font-size: var(--text-xl); letter-spacing: -0.01em; }
+.steps { list-style: none; margin: 0; padding: 0; border: 1px solid var(--border); border-radius: var(--radius-panel); overflow: hidden; background: var(--surface); }
+.step { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: var(--space-3); padding: var(--space-4); }
+.step + .step { border-top: 1px solid var(--border-subtle); }
+.num { width: 28px; height: 28px; border-radius: 50%; background: var(--accent-subtle); color: var(--accent-strong); display: grid; place-items: center; font-size: var(--text-sm); font-variant-numeric: tabular-nums; }
+.stepTitle { font-size: var(--text-base); }
+.stepBody { margin: var(--space-1) 0 0; font-size: var(--text-sm); line-height: 1.75; color: var(--text-secondary); }
+.notes { margin: 0; padding-left: 1.25rem; display: grid; gap: var(--space-2); font-size: var(--text-sm); line-height: 1.75; color: var(--text-secondary); }
+.footer { margin-top: auto; padding-top: var(--space-6); border-top: 1px solid var(--border-subtle); font-size: var(--text-sm); color: var(--text-muted); }
