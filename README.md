@@ -1,5 +1,7 @@
 # FxGithub
 
+![FxGithub](docs/preview.png)
+
 GitHub のコード片・README・Gist を、Discord などで画像つきのプレビューとして展開するサービスです。
 Bun + TypeScript で動くセルフホスト版です。公開先は https://fxgh.lapius7.com です。
 
