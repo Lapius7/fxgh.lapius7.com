@@ -1,0 +1,89 @@
+/* Hallmark · macrostructure: Tool-first single column · tone: utilitarian · anchor hue: green 150 */
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --radius: 0.5rem;
+  --background: oklch(98.5% 0.004 150);
+  --foreground: oklch(22% 0.02 160);
+  --card: oklch(100% 0 0);
+  --muted: oklch(95% 0.008 150);
+  --muted-foreground: oklch(48% 0.02 160);
+  --border: oklch(89% 0.01 150);
+  --input: oklch(84% 0.012 150);
+  --primary: oklch(48% 0.14 150);
+  --primary-foreground: oklch(99% 0.005 150);
+  --accent: oklch(95% 0.02 150);
+  --accent-foreground: oklch(22% 0.02 160);
+  --destructive: oklch(52% 0.19 27);
+  --ring: oklch(55% 0.14 150);
+  --secondary: oklch(95% 0.008 150);
+  --secondary-foreground: oklch(22% 0.02 160);
+  --popover: var(--card);
+  --popover-foreground: var(--foreground);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: oklch(17% 0.015 160);
+    --foreground: oklch(94% 0.01 150);
+    --card: oklch(21% 0.016 160);
+    --muted: oklch(24% 0.016 160);
+    --muted-foreground: oklch(70% 0.02 155);
+    --border: oklch(30% 0.018 160);
+    --input: oklch(36% 0.02 160);
+    --primary: oklch(70% 0.17 150);
+    --primary-foreground: oklch(17% 0.02 160);
+    --accent: oklch(28% 0.03 155);
+    --accent-foreground: oklch(94% 0.01 150);
+    --destructive: oklch(68% 0.19 27);
+    --ring: oklch(70% 0.15 150);
+    --secondary: oklch(26% 0.016 160);
+    --secondary-foreground: oklch(94% 0.01 150);
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-ring: var(--ring);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
+  --font-sans: system-ui, "Hiragino Sans", "Noto Sans JP", "Yu Gothic UI", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", "M PLUS 1 Code", Menlo, monospace;
+}
+
+html,
+body {
+  overflow-x: clip;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

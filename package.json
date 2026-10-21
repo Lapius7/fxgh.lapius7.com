@@ -1,0 +1,40 @@
+{
+  "name": "fxgithub",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "GitHub のコード片・README・Gist を Discord などで見やすく埋め込むサービス",
+  "scripts": {
+    "dev": "bun --watch src/server.ts",
+    "start": "bun src/server.ts",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit",
+    "build": "vite build",
+    "dev:web": "vite"
+  },
+  "dependencies": {
+    "@resvg/resvg-js": "^2.6.2",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "cn": "^0.5.0",
+    "hono": "^4.13.13",
+    "lucide-react": "^1.60.0",
+    "radix-ui": "^1.8.1",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "satori": "^0.63.1",
+    "shiki": "^4.5.0",
+    "tailwind-merge": "^3.7.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/bun": "^1.4.3",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "tailwindcss": "^4.3.3",
+    "tw-animate-css": "^1.4.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4"
+  }
+}
