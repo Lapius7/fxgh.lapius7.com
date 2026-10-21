@@ -29,7 +29,6 @@ export function App() {
     <div className={styles.page}>
       <header>
         <div className={styles.brand}>
-          <span className={styles.mark} aria-hidden>{"</>"}</span>
           FxGithub
         </div>
       </header>

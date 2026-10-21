@@ -1,7 +1,6 @@
 .page { width: 100%; max-width: 720px; min-height: 100dvh; margin-inline: auto; padding: 32px clamp(16px, 4vw, 32px); display: flex; flex-direction: column; gap: var(--space-12); box-sizing: border-box; }
 .page > * { min-width: 0; }
 .brand { font-family: var(--font-display); font-weight: 500; font-size: var(--text-lg); letter-spacing: -0.01em; display: flex; align-items: center; gap: var(--space-2); }
-.mark { width: 24px; height: 24px; border-radius: 7px; background: var(--accent); color: var(--accent-foreground); display: grid; place-items: center; font-size: 13px; font-family: var(--font-display); }
 .hero { display: grid; gap: var(--space-4); }
 .title { font-size: clamp(1.75rem, 5vw, var(--text-3xl)); line-height: 1.25; letter-spacing: -0.02em; text-wrap: balance; overflow-wrap: anywhere; }
 .lead { margin: 0; color: var(--text-secondary); line-height: 1.8; text-wrap: pretty; }
