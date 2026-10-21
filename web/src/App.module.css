@@ -45,6 +45,6 @@
 .footer { margin-top: auto; text-align: center; font-size: var(--text-xs); color: var(--text-muted); }
 .footer a { color: inherit; }
 .actions { display: flex; align-items: center; gap: 16px; }
-.icon { display: grid; place-items: center; width: 32px; height: 32px; border: 1px solid var(--hairline); background: transparent; color: var(--text-secondary); cursor: pointer; }
-.icon:hover { color: var(--foreground); border-color: var(--border-strong); }
+.icon { display: grid; place-items: center; width: 32px; height: 32px; background: transparent; color: var(--text-secondary); cursor: pointer; }
+.icon:hover { color: var(--foreground); }
 .icon:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
