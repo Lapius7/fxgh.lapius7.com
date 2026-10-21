@@ -9,9 +9,9 @@ const REPO = "https://github.com/Lapius7/fxgh.lapius7.com";
 
 const FX = "fxgh.lapius7.com";
 const TABS = [
-  { id: "range", label: "行範囲", from: "github.com/honojs/hono/blob/main/src/hono.ts#L16-L40", to: `${FX}/honojs/hono/blob/main/src/hono.ts?L16-L40`, note: "# を ? に置き換えると、指定した行のコードが色付きの画像になります。" },
-  { id: "file", label: "ファイル", from: "github.com/honojs/hono/blob/main/src/hono.ts", to: `${FX}/honojs/hono/blob/main/src/hono.ts`, note: "行を指定しなければ、ファイルの先頭 70 行を表示します。" },
   { id: "repo", label: "リポジトリ", from: "github.com/honojs/hono", to: `${FX}/honojs/hono`, note: "README の先頭にある画像を、そのままプレビューに使います。" },
+  { id: "file", label: "ファイル", from: "github.com/honojs/hono/blob/main/src/hono.ts", to: `${FX}/honojs/hono/blob/main/src/hono.ts`, note: "行を指定しなければ、ファイルの先頭 70 行を表示します。" },
+  { id: "range", label: "行範囲", from: "github.com/honojs/hono/blob/main/src/hono.ts#L16-L40", to: `${FX}/honojs/hono/blob/main/src/hono.ts?L16-L40`, note: "# を ? に置き換えると、指定した行のコードが色付きの画像になります。" },
   { id: "gist", label: "Gist", from: "gist.github.com/user/0123abcd", to: `${FX}/gist/user/0123abcd`, note: "公開 Gist のコードも同じように画像にします。" },
 ] as const;
 
@@ -26,7 +26,7 @@ const FEATURES = [
 
 export function App() {
   const [value, setValue] = useState("");
-  const [tab, setTab] = useState<(typeof TABS)[number]["id"]>("range");
+  const [tab, setTab] = useState<(typeof TABS)[number]["id"]>("repo");
   const result = convert(value, location.host);
   const invalid = value.trim() !== "" && !result.ok;
   const current = TABS.find((t) => t.id === tab)!;
