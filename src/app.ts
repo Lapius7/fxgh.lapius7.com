@@ -82,12 +82,11 @@ app.get("/gist/:user/:id", async (c) => {
       end: range.end,
       key: ["gist", id, file.filename, raw.version],
     });
-    const lines = range.start === range.end ? `Line ${range.start}` : `Lines ${range.start}–${range.end}`;
     const extras = [gist.revisions > 1 && `${gist.revisions} 📝`, gist.forks && `${gist.forks} 🍴`, gist.files.length > 1 && `${gist.files.length} 📁`, gist.comments && `${gist.comments} 💬`];
     return html(
       embedHtml({
         title: `${file.filename} — ${gist.owner}'s gist`,
-        description: [gist.description, `${lines} of ${file.filename}`, range.truncated && `(limited to ${config.maxLines} lines)`].filter(Boolean).join("\n"),
+        description: gist.description ?? "",
         url: target + `#file-${encodeURIComponent(file.filename.toLowerCase().replace(/\./g, "-"))}`,
         imageUrl: `${config.baseUrl}/img/${img.file}`,
         imageWidth: img.width,
@@ -130,12 +129,10 @@ async function repoRoute(c: import("hono").Context) {
       end: range.end,
       key: ["repo", owner, repo, found.ref, found.path, found.file.version],
     });
-    const lines = range.start === range.end ? `Line ${range.start}` : `Lines ${range.start}–${range.end}`;
-    const limit = range.truncated ? `(limited to ${config.maxLines} lines)` : !range.explicit && total > config.maxLines ? `(first ${config.maxLines} lines)` : "";
     return html(
       embedHtml({
         title: isBlob ? `${found.path} — ${owner}/${repo}` : `${owner}/${repo}`,
-        description: [repoInfo?.description, `${lines} of ${filename} on ${found.ref}`, limit].filter(Boolean).join("\n"),
+        description: repoInfo?.description ?? "",
         url: isBlob ? githubUrl + fragment(param) : githubUrl,
         imageUrl: `${config.baseUrl}/img/${img.file}`,
         imageWidth: img.width,
