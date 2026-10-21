@@ -1,11 +1,18 @@
-/* Hallmark · tool-first single column · tokens from Arc foundation */
+/* Hallmark · tool-first, centered mono · tokens from Arc foundation */
 *, *::before, *::after { box-sizing: border-box; }
 html, body { overflow-x: clip; }
+:root { --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, "Hiragino Sans", "Noto Sans JP", "Yu Gothic", monospace; --hairline: var(--border); }
 body {
   margin: 0;
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-body), "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif;
+  font-family: var(--mono);
   -webkit-font-smoothing: antialiased;
 }
-h1, h2, h3 { font-family: var(--font-display), "Hiragino Sans", "Noto Sans JP", sans-serif; font-weight: 500; margin: 0; }
+/* 紙のような粗いノイズ */
+body::before {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: .5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 .12 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+h1, h2, h3, p { margin: 0; }
+h1, h2, h3 { font-family: var(--mono); font-weight: 500; }

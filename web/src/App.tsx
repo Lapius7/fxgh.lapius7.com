@@ -1,48 +1,54 @@
 import { useState } from "react";
 import { Input } from "@/components/arc/input/input";
 import { CopyButton } from "@/components/arc/copy-button/copy-button";
-import { CodeBlock } from "@/components/arc/code-block/code-block";
 import { convert } from "./convert";
 import styles from "./App.module.css";
 
 const EXAMPLE = "https://github.com/honojs/hono/blob/main/src/hono.ts#L16-L40";
+const REPO = "https://github.com/Lapius7/fxgh.lapius7.com";
 
-const STEPS = [
-  ["URL を用意する", "GitHub でファイルを開き、共有したい最初の行番号をクリック、最後の行番号を Shift+クリックします。URL の末尾が #L16-L40 のようになります。"],
-  ["ここで変換する", "URL を貼ると、# を ? に置き換えた FxGithub の URL ができます。github.com の部分を fxgh.lapius7.com に書き換えるだけでも同じです。"],
-  ["Discord に貼る", "変換した URL を送ると、色付きのコード画像と、リポジトリの情報つきで展開されます。"],
+const FX = "fxgh.lapius7.com";
+const TABS = [
+  { id: "range", label: "行範囲", from: "github.com/honojs/hono/blob/main/src/hono.ts#L16-L40", to: `${FX}/honojs/hono/blob/main/src/hono.ts?L16-L40`, note: "# を ? に置き換えると、指定した行のコードが色付きの画像になります。" },
+  { id: "file", label: "ファイル", from: "github.com/honojs/hono/blob/main/src/hono.ts", to: `${FX}/honojs/hono/blob/main/src/hono.ts`, note: "行を指定しなければ、ファイルの先頭 70 行を表示します。" },
+  { id: "repo", label: "リポジトリ", from: "github.com/honojs/hono", to: `${FX}/honojs/hono`, note: "README の先頭にある画像を、そのままプレビューに使います。" },
+  { id: "gist", label: "Gist", from: "gist.github.com/user/0123abcd", to: `${FX}/gist/user/0123abcd`, note: "公開 Gist のコードも同じように画像にします。" },
 ] as const;
 
-const NOTES = [
-  "公開リポジトリと公開 Gist だけに対応しています。",
-  "表示できるのは 1 回あたり最大 70 行です。超えた分は切り詰めます。",
-  "範囲を指定しないと、ファイルの先頭から 70 行を表示します。リポジトリの URL だけを送ると README を表示します。",
-  "取得したコードから生成した画像は、サーバーに最大 14 日間保存します。載せたくないコードは貼らないでください。",
+const FEATURES = [
+  ["行を指定して共有", "GitHub で行番号を選んだ URL のまま使えます。最大 70 行を 1 枚の画像にします。"],
+  ["コードの色をそのまま", "シンタックスハイライトつきで、日本語を含むコードも崩れません。"],
+  ["README の画像を使う", "リポジトリだけの URL は、README 先頭の画像と説明文で展開します。"],
+  ["ブラウザでは GitHub へ", "人が開いたときは、行位置を保ったまま github.com へ移動します。"],
+  ["公開リポジトリと Gist", "非公開のコードは取得しません。画像は最大 14 日間だけ保存します。"],
+  ["ログインも設定も不要", "github.com の部分を書き換えるだけで使えます。"],
 ];
 
 export function App() {
   const [value, setValue] = useState("");
+  const [tab, setTab] = useState<(typeof TABS)[number]["id"]>("range");
   const result = convert(value, location.host);
   const invalid = value.trim() !== "" && !result.ok;
+  const current = TABS.find((t) => t.id === tab)!;
 
   return (
     <div className={styles.page}>
-      <header>
-        <div className={styles.brand}>
-          FxGithub
-        </div>
+      <header className={styles.top}>
+        <span className={styles.brand}>FxGithub</span>
+        <a href={REPO}>github.com</a>
       </header>
 
-      <main style={{ display: "grid", gap: "var(--space-12)" }}>
+      <main style={{ display: "grid", gap: 56 }}>
         <section className={styles.hero}>
-          <h1 className={styles.title}>GitHub のコードを、Discord できれいに見せる</h1>
+          <h1 className={styles.title}>Share code in Discord.</h1>
           <p className={styles.lead}>
-            ファイル、行範囲、README、Gist の URL を、画像つきのプレビューで展開される URL に変換します。
+            GitHub のコード、README、Gist の URL を、画像つきで展開される URL に変換します。
+            <br />
+            ログインも拡張機能もいりません。
           </p>
         </section>
 
-        <section className={styles.tool} aria-labelledby="convert-title">
-          <h2 id="convert-title" hidden>URL を変換する</h2>
+        <section className={styles.tool} aria-label="URL の変換">
           <Input
             label="GitHub の URL"
             placeholder={EXAMPLE}
@@ -55,10 +61,9 @@ export function App() {
           />
           {result.ok ? (
             <div className={styles.result} aria-live="polite">
-              <div className={styles.resultRow}>
-                <output className={styles.url}>{result.url}</output>
-                <CopyButton value={result.url} label="コピー" />
-              </div>
+              <span className={styles.prompt}>$</span>
+              <output className={styles.url}>{result.url}</output>
+              <CopyButton value={result.url} iconOnly label="コピー" variant="plain" />
             </div>
           ) : (
             !invalid && (
@@ -71,35 +76,48 @@ export function App() {
           )}
         </section>
 
-        <section className={styles.section} aria-labelledby="how-title">
-          <h2 id="how-title" className={styles.h2}>使い方</h2>
-          <ol className={styles.steps}>
-            {STEPS.map(([title, body], i) => (
-              <li key={title} className={styles.step}>
-                <span className={styles.num}>{i + 1}</span>
-                <div>
-                  <h3 className={styles.stepTitle}>{title}</h3>
-                  <p className={styles.stepBody}>{body}</p>
-                </div>
-              </li>
+        <section className={styles.demo} aria-label="使い方">
+          <div className={styles.tabs} role="tablist">
+            {TABS.map((t) => (
+              <button
+                key={t.id}
+                type="button"
+                role="tab"
+                aria-selected={tab === t.id}
+                className={styles.tab}
+                onClick={() => setTab(t.id)}
+              >
+                {t.label}
+              </button>
             ))}
-          </ol>
-          <CodeBlock
-            filename="変換の例"
-            language="text"
-            code={`before  https://github.com/honojs/hono/blob/main/src/hono.ts#L16-L40\nafter   https://${location.host}/honojs/hono/blob/main/src/hono.ts?L16-L40`}
-          />
+          </div>
+          <div className={styles.window}>
+            <div className={styles.bar}>
+              <span className={styles.dots} aria-hidden><i /><i /><i /></span>
+              <span>URL</span>
+              <span />
+            </div>
+            <div className={styles.body} role="tabpanel">
+              <div className={styles.row}><span>$</span><span>{current.from}</span></div>
+              <div className={`${styles.row} ${styles.out}`}><span>→</span><span>{current.to}</span></div>
+            </div>
+          </div>
+          <p className={styles.caption}>{current.note}</p>
         </section>
 
-        <section className={styles.section} aria-labelledby="notes-title">
-          <h2 id="notes-title" className={styles.h2}>仕様と注意</h2>
-          <ul className={styles.notes}>
-            {NOTES.map((n) => <li key={n}>{n}</li>)}
-          </ul>
+        <section className={styles.grid} aria-label="特徴">
+          {FEATURES.map(([title, body]) => (
+            <div key={title} className={styles.cell}>
+              <h3>{title}</h3>
+              <p>{body}</p>
+            </div>
+          ))}
         </section>
       </main>
 
-      <footer className={styles.footer}>FxGithub</footer>
+      <footer className={styles.footer}>
+        FxGithub · <a href={REPO}>Lapius7/fxgh.lapius7.com</a>
+      </footer>
     </div>
   );
 }
